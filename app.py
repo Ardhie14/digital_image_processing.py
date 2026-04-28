@@ -4,13 +4,12 @@ import cv2
 from PIL import Image, ImageEnhance
 import matplotlib.pyplot as plt
 from scipy.fft import fft2, ifft2, fftshift, ifftshift
-import io
 
 # ========================
 # KONFIGURASI HALAMAN
 # ========================
 st.set_page_config(
-    page_title="Aplikasi Pengolahan Citra Digital",
+    page_title="PCD Studio - Pengolahan Citra Digital",
     page_icon="🖼️",
     layout="wide"
 )
