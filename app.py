@@ -44,56 +44,41 @@ def load_image(uploaded_file):
 # ========================
 if menu == "Pendahuluan":
     st.title("📖 Pendahuluan")
-    st.write("""
-    ### Aplikasi Pengolahan Citra Digital
-
-    Aplikasi ini dikembangkan untuk memenuhi tugas kuliah Pengolahan Citra Digital.
-    Aplikasi dibangun menggunakan **Streamlit** dan **Python** dengan berbagai fitur:
-
-    - 🔄 **Transformasi Geometri** (Rotasi, Translasi, Skala, Flip)
-    - ✨ **Enhancement** (Brightness, Contrast, Sharpening)
-    - 📊 **Histogram** & Equalization
-    - 🎛️ **Noise & Filtering** (Gaussian, Median, Low-pass, High-pass)
-    - 🌊 **FFT** (Analisis Frekuensi)
-
-    Tujuan: Memahami konsep dasar pengolahan citra secara interaktif.
-    """)
+    st.write("Aplikasi Pengolahan Citra Digital")
+    st.write("Aplikasi ini dikembangkan untuk memenuhi tugas kuliah Pengolahan Citra Digital.")
+    st.write("Aplikasi dibangun menggunakan Streamlit dan Python dengan berbagai fitur:")
+    st.write("- Transformasi Geometri (Rotasi, Translasi, Skala, Flip)")
+    st.write("- Enhancement (Brightness, Contrast, Sharpening)")
+    st.write("- Histogram & Equalization")
+    st.write("- Noise & Filtering (Gaussian, Median, Low-pass, High-pass)")
+    st.write("- FFT (Analisis Frekuensi)")
+    st.write("Tujuan: Memahami konsep dasar pengolahan citra secara interaktif.")
 
 # ========================
 # 2. TEORI SINGKAT
 # ========================
 elif menu == "Teori Singkat":
     st.title("📚 Teori Singkat")
-    with st.expander("🎯 Transformasi Geometri"):
-        st.write("""
-        - **Rotasi**: Memutar gambar dengan sudut tertentu.
-        - **Translasi**: Memindahkan posisi gambar.
-        - **Skala**: Memperbesar/memperkecil gambar.
-        - **Flip**: Membalik gambar (horizontal/vertikal).
-        """)
-    with st.expander("✨ Enhancement"):
-        st.write("""
-        - **Brightness**: Mengatur kecerahan.
-        - **Contrast**: Mengatur perbedaan warna.
-        - **Sharpening**: Mempertegas tepi objek.
-        """)
-    with st.expander("📊 Histogram"):
-        st.write("""
-        Histogram menggambarkan distribusi intensitas piksel.
-        **Equalization** menyebarkan intensitas secara merata.
-        """)
-    with st.expander("🎛️ Noise & Filtering"):
-        st.write("""
-        - **Gaussian Noise**: Noise terdistribusi normal.
-        - **Salt & Pepper Noise**: Titik hitam/putih acak.
-        - **Filter Median**: Menghilangkan noise impulsif.
-        - **Filter Gaussian**: Menghaluskan gambar.
-        """)
-    with st.expander("🌊 FFT (Fast Fourier Transform)"):
-        st.write("""
-        FFT mengubah citra dari domain spasial ke domain frekuensi.
-        Memungkinkan analisis komponen frekuensi rendah/tinggi.
-        """)
+    with st.expander("Transformasi Geometri"):
+        st.write("- Rotasi: Memutar gambar dengan sudut tertentu.")
+        st.write("- Translasi: Memindahkan posisi gambar.")
+        st.write("- Skala: Memperbesar/memperkecil gambar.")
+        st.write("- Flip: Membalik gambar (horizontal/vertikal).")
+    with st.expander("Enhancement"):
+        st.write("- Brightness: Mengatur kecerahan.")
+        st.write("- Contrast: Mengatur perbedaan warna.")
+        st.write("- Sharpening: Mempertegas tepi objek.")
+    with st.expander("Histogram"):
+        st.write("Histogram menggambarkan distribusi intensitas piksel.")
+        st.write("Equalization menyebarkan intensitas secara merata.")
+    with st.expander("Noise & Filtering"):
+        st.write("- Gaussian Noise: Noise terdistribusi normal.")
+        st.write("- Salt & Pepper Noise: Titik hitam/putih acak.")
+        st.write("- Filter Median: Menghilangkan noise impulsif.")
+        st.write("- Filter Gaussian: Menghaluskan gambar.")
+    with st.expander("FFT (Fast Fourier Transform)"):
+        st.write("FFT mengubah citra dari domain spasial ke domain frekuensi.")
+        st.write("Memungkinkan analisis komponen frekuensi rendah/tinggi.")
 
 # ========================
 # 3. LOAD GAMBAR
@@ -104,7 +89,7 @@ elif menu == "Load & Tampilkan Gambar":
     if uploaded_file is not None:
         st.session_state.gambar_asli = load_image(uploaded_file)
         st.session_state.gambar_proses = st.session_state.gambar_asli.copy()
-        st.success("✅ Gambar berhasil di-load!")
+        st.success("Gambar berhasil di-load!")
         col1, col2 = st.columns(2)
         with col1:
             st.image(st.session_state.gambar_asli, caption="Gambar Asli", use_container_width=True)
@@ -141,7 +126,7 @@ elif menu == "Transformasi Geometri":
             new_h = int(img.shape[0] * scale)
             result = cv2.resize(img, (new_w, new_h))
             
-        else:  # Flip
+        else:
             flip_code = st.selectbox("Arah Flip:", ["Horizontal", "Vertikal"])
             if flip_code == "Horizontal":
                 result = cv2.flip(img, 1)
@@ -155,7 +140,7 @@ elif menu == "Transformasi Geometri":
         with col2:
             st.image(result, caption="Sesudah", use_container_width=True)
     else:
-        st.warning("⚠️ Load gambar terlebih dahulu di menu 'Load & Tampilkan Gambar'.")
+        st.warning("Load gambar terlebih dahulu di menu Load & Tampilkan Gambar.")
 
 # ========================
 # 5. ENHANCEMENT
@@ -178,10 +163,8 @@ elif menu == "Enhancement":
             enhancer = ImageEnhance.Contrast(pil_img)
             result = np.array(enhancer.enhance(factor))
             
-        else:  # Sharpening
-            kernel = np.array([[0, -1, 0],
-                               [-1, 5, -1],
-                               [0, -1, 0]])
+        else:
+            kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
             result = cv2.filter2D(img, -1, kernel)
         
         st.session_state.gambar_proses = result
@@ -191,7 +174,7 @@ elif menu == "Enhancement":
         with col2:
             st.image(result, caption="Sesudah", use_container_width=True)
     else:
-        st.warning("⚠️ Load gambar terlebih dahulu.")
+        st.warning("Load gambar terlebih dahulu.")
 
 # ========================
 # 6. HISTOGRAM
@@ -225,7 +208,7 @@ elif menu == "Histogram":
             st.session_state.gambar_proses = cv2.cvtColor(equalized, cv2.COLOR_GRAY2RGB)
             st.success("Equalization diterapkan!")
     else:
-        st.warning("⚠️ Load gambar terlebih dahulu.")
+        st.warning("Load gambar terlebih dahulu.")
 
 # ========================
 # 7. NOISE & FILTERING
@@ -243,7 +226,7 @@ elif menu == "Noise & Filtering":
                 if noise_type == "Gaussian":
                     noise = np.random.normal(0, 25, img.shape).astype(np.uint8)
                     result = cv2.add(img, noise)
-                else:  # Salt & Pepper
+                else:
                     s_vs_p = 0.5
                     amount = 0.05
                     result = img.copy()
@@ -256,7 +239,7 @@ elif menu == "Noise & Filtering":
                     result[coords[0], coords[1], :] = [0, 0, 0]
                 st.session_state.gambar_proses = result
                 
-        else:  # Filter
+        else:
             filter_type = st.selectbox("Pilih Filter:", ["Gaussian", "Median", "Low-pass", "High-pass"])
             if st.button("Terapkan Filter"):
                 if filter_type == "Gaussian":
@@ -266,10 +249,8 @@ elif menu == "Noise & Filtering":
                 elif filter_type == "Low-pass":
                     kernel = np.ones((5, 5), np.float32) / 25
                     result = cv2.filter2D(img, -1, kernel)
-                else:  # High-pass
-                    kernel = np.array([[-1, -1, -1],
-                                       [-1,  8, -1],
-                                       [-1, -1, -1]])
+                else:
+                    kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
                     result = cv2.filter2D(img, -1, kernel)
                 st.session_state.gambar_proses = result
         
@@ -280,7 +261,7 @@ elif menu == "Noise & Filtering":
             with col2:
                 st.image(result, caption="Sesudah", use_container_width=True)
     else:
-        st.warning("⚠️ Load gambar terlebih dahulu.")
+        st.warning("Load gambar terlebih dahulu.")
 
 # ========================
 # 8. FFT (ANALISIS FREKUENSI)
@@ -291,7 +272,6 @@ elif menu == "FFT (Analisis Frekuensi)":
         img = st.session_state.gambar_proses.copy()
         gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         
-        # FFT
         f = fft2(gray)
         fshift = fftshift(f)
         magnitude_spectrum = np.log(np.abs(fshift) + 1)
@@ -305,7 +285,6 @@ elif menu == "FFT (Analisis Frekuensi)":
         axes[1].set_title("Magnitude Spectrum (FFT)")
         axes[1].axis('off')
         
-        # Inverse FFT
         f_ishift = ifftshift(fshift)
         img_back = ifft2(f_ishift)
         img_back = np.abs(img_back)
@@ -316,42 +295,99 @@ elif menu == "FFT (Analisis Frekuensi)":
         plt.tight_layout()
         st.pyplot(fig)
         
-        st.info("""
-        **Penjelasan:**
-        - **Magnitude Spectrum**: Menunjukkan distribusi energi frekuensi.
-        - Titik terang di tengah = komponen frekuensi rendah.
-        - Semakin jauh dari pusat = frekuensi tinggi.
-        """)
+        st.info("Penjelasan: Magnitude Spectrum menunjukkan distribusi energi frekuensi. Titik terang di tengah = komponen frekuensi rendah. Semakin jauh dari pusat = frekuensi tinggi.")
     else:
-        st.warning("⚠️ Load gambar terlebih dahulu.")
+        st.warning("Load gambar terlebih dahulu.")
 
 # ========================
 # 9. IMPLEMENTASI
 # ========================
 elif menu == "Implementasi":
     st.title("💻 Implementasi")
-    st.write("""
-    ### Tools & Libraries:
-    - **Streamlit** → Framework web interaktif
-    - **OpenCV** → Operasi citra (transformasi, filter, noise)
-    - **PIL/Pillow** → Enhancement dasar
-    - **NumPy** → Manipulasi array & FFT
-    - **Matplotlib** → Visualisasi histogram & spektrum FFT
-    - **SciPy** → FFT lanjutan
+    st.write("Tools & Libraries:")
+    st.write("- Streamlit: Framework web interaktif")
+    st.write("- OpenCV: Operasi citra (transformasi, filter, noise)")
+    st.write("- PIL/Pillow: Enhancement dasar")
+    st.write("- NumPy: Manipulasi array & FFT")
+    st.write("- Matplotlib: Visualisasi histogram & spektrum FFT")
+    st.write("- SciPy: FFT lanjutan")
+    st.write("")
+    st.write("Struktur Kode Utama:")
+    st.code("""
+# Load gambar
+img = cv2.imread(uploaded_file)
 
-    ### Struktur Kode Utama:
-    ```python
-    # Load gambar
-    img = cv2.imread(uploaded_file)
-    
-    # Rotasi
-    M = cv2.getRotationMatrix2D(center, angle, 1.0)
-    rotated = cv2.warpAffine(img, M, (w, h))
-    
-    # Histogram equalization
-    equalized = cv2.equalizeHist(gray)
-    
-    # FFT
-    f = fft2(gray)
-    fshift = fftshift(f)
-    magnitude = np.log(np.abs(fshift) + 1)
+# Rotasi
+M = cv2.getRotationMatrix2D(center, angle, 1.0)
+rotated = cv2.warpAffine(img, M, (w, h))
+
+# Histogram equalization
+equalized = cv2.equalizeHist(gray)
+
+# FFT
+f = fft2(gray)
+fshift = fftshift(f)
+magnitude = np.log(np.abs(fshift) + 1)
+""", language="python")
+
+# ========================
+# 10. HASIL & PEMBAHASAN
+# ========================
+elif menu == "Hasil & Pembahasan":
+    st.title("📝 Hasil & Pembahasan")
+    st.markdown("### Observasi & Analisis:")
+    st.markdown("")
+    st.markdown("1. **Transformasi Geometri**")
+    st.markdown("   - Rotasi dan skala dapat mengubah informasi spasial.")
+    st.markdown("   - Translasi memotong gambar jika melebihi batas.")
+    st.markdown("")
+    st.markdown("2. **Enhancement**")
+    st.markdown("   - Brightness > 1.0 membuat gambar lebih terang.")
+    st.markdown("   - Sharpening meningkatkan ketajaman tepi.")
+    st.markdown("")
+    st.markdown("3. **Histogram**")
+    st.markdown("   - Citra gelap -> histogram terkonsentrasi di kiri.")
+    st.markdown("   - Equalization menyebarkan intensitas -> kontras lebih baik.")
+    st.markdown("")
+    st.markdown("4. **Noise & Filtering**")
+    st.markdown("   - Gaussian noise -> filter Gaussian efektif.")
+    st.markdown("   - Salt & pepper noise -> filter median lebih baik.")
+    st.markdown("")
+    st.markdown("5. **FFT**")
+    st.markdown("   - Frekuensi rendah (pusat spektrum) = informasi utama.")
+    st.markdown("   - High-pass filter = deteksi tepi.")
+    st.markdown("")
+    st.markdown("### Contoh Hasil Percobaan:")
+    st.markdown("*(Screenshot hasil pengujian dapat ditambahkan di sini)*")
+
+# ========================
+# 11. KESIMPULAN
+# ========================
+elif menu == "Kesimpulan":
+    st.title("📌 Kesimpulan")
+    st.markdown("### Kesimpulan:")
+    st.markdown("")
+    st.markdown("1. Aplikasi berhasil mengimplementasikan berbagai teknik pengolahan citra digital secara interaktif.")
+    st.markdown("2. Transformasi geometri memudahkan manipulasi posisi dan ukuran objek dalam citra.")
+    st.markdown("3. Enhancement meningkatkan kualitas visual citra sesuai kebutuhan.")
+    st.markdown("4. Histogram dan equalization membantu perbaikan kontras secara otomatis.")
+    st.markdown("5. Noise & filtering menunjukkan pentingnya memilih filter yang tepat sesuai jenis noise.")
+    st.markdown("6. FFT memberikan wawasan tentang komposisi frekuensi dalam citra.")
+    st.markdown("")
+    st.markdown("### Pengembangan Lebih Lanjut:")
+    st.markdown("- Implementasi deteksi tepi (Canny, Sobel)")
+    st.markdown("- Segmentasi citra (thresholding, watershed)")
+    st.markdown("- Ekstraksi fitur (HOG, LBP)")
+    st.markdown("- Model deep learning untuk klasifikasi citra")
+    st.markdown("")
+    st.markdown("---")
+    st.markdown("**Aplikasi ini dikembangkan untuk memenuhi tugas kuliah Pengolahan Citra Digital.**")
+
+# ========================
+# FOOTER DI SIDEBAR
+# ========================
+st.sidebar.markdown("---")
+if st.session_state.gambar_asli is not None:
+    st.sidebar.success("Status: Gambar tersedia")
+else:
+    st.sidebar.info("Status: Belum ada gambar")
