@@ -10,194 +10,212 @@ from scipy.fft import fft2, ifft2, fftshift, ifftshift
 # ========================
 st.set_page_config(
     page_title="PCD Studio - Pengolahan Citra Digital",
-    page_icon="🎯",
+    page_icon="💙",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # ========================
-# CUSTOM CSS - TEMA MERAH, HITAM, BIRU
+# CUSTOM CSS - TEMA BIRU PUTIH
 # ========================
 st.markdown("""
 <style>
-    /* Main background - Hitam Gradient */
+    /* Main background - Biru Muda */
     .stApp {
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f0f 100%);
+        background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fc 50%, #e8f0fe 100%);
     }
     
     /* Card style untuk konten */
     .css-1r6slb0, .css-1v0mbdj, .stMarkdown, .element-container, .stAlert {
-        background-color: rgba(20, 20, 30, 0.95);
-        border-radius: 12px;
+        background-color: white;
+        border-radius: 16px;
         padding: 20px;
         margin: 10px 0;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        border-left: 4px solid #e74c3c;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border: none;
     }
     
     /* Judul utama */
     h1 {
-        background: linear-gradient(135deg, #e74c3c 0%, #2980b9 50%, #e74c3c 100%);
+        background: linear-gradient(135deg, #1a5276 0%, #2980b9 50%, #1a5276 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-size: 3rem !important;
+        font-size: 2.8rem !important;
         font-weight: bold !important;
         text-align: center;
         margin-bottom: 30px !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     
     /* Subheader */
     h2 {
-        color: #e74c3c !important;
+        color: #1a5276 !important;
         border-left: 4px solid #2980b9;
         padding-left: 15px;
         margin-top: 20px !important;
+        font-weight: 600 !important;
     }
     
     h3 {
-        color: #3498db !important;
-        border-left: 3px solid #e74c3c;
+        color: #2471a3 !important;
+        border-left: 3px solid #85c1e9;
         padding-left: 12px;
         margin-top: 15px !important;
     }
     
     h4 {
-        color: #ecf0f1 !important;
+        color: #2c3e50 !important;
     }
     
     /* Text color */
     p, li, .stMarkdown {
-        color: #ecf0f1 !important;
+        color: #2c3e50 !important;
     }
     
-    /* Sidebar styling - Hitam profesional */
+    /* Sidebar styling - Biru Tua */
     .css-1d391kg, .css-12oz5g7, .stSidebar {
-        background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%);
-        border-right: 1px solid #e74c3c;
+        background: linear-gradient(180deg, #1a5276 0%, #2471a3 100%);
+        border-right: none;
     }
     
     /* Sidebar text */
     .stSidebar .stMarkdown, .stSidebar p, .stSidebar label {
-        color: #ecf0f1 !important;
+        color: white !important;
     }
     
-    /* Button styling - Merah & Biru */
+    /* Sidebar radio button */
+    .stSidebar .stRadio > div > label {
+        color: white !important;
+    }
+    
+    .stSidebar .stRadio > div > label:hover {
+        color: #d4e4fc !important;
+    }
+    
+    /* Button styling - Biru */
     .stButton > button {
-        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%);
         color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         padding: 10px 24px;
-        font-weight: bold;
+        font-weight: 600;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
     .stButton > button:hover {
         transform: translateY(-2px);
-        background: linear-gradient(135deg, #2980b9 0%, #1a6da0 100%);
-        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
     }
     
     /* Selectbox styling */
     .stSelectbox > div > div {
-        background-color: #2c3e50;
-        color: white;
-        border-radius: 8px;
-        border: 1px solid #e74c3c;
+        background-color: white;
+        color: #2c3e50;
+        border-radius: 10px;
+        border: 1px solid #85c1e9;
     }
     
     /* Slider styling */
     .stSlider > div > div > div {
-        background-color: #e74c3c;
+        background-color: #2980b9;
     }
     
     /* Info box styling */
     .stAlert {
-        border-radius: 10px;
-        border-left: 4px solid #e74c3c;
-        background-color: #1a1a2e;
+        border-radius: 12px;
+        border-left: 4px solid #2980b9;
+        background-color: #ebf5fb;
     }
     
     .stAlert > div {
-        color: #ecf0f1;
+        color: #1a5276;
     }
     
     /* Success box */
     .stSuccess {
-        background-color: rgba(46, 204, 113, 0.2);
-        border-left-color: #2ecc71;
+        background-color: #d5f5e3;
+        border-left-color: #27ae60;
     }
     
     /* Warning box */
     .stWarning {
-        background-color: rgba(241, 196, 15, 0.2);
-        border-left-color: #f1c40f;
+        background-color: #fef9e7;
+        border-left-color: #f39c12;
     }
     
     /* Image container */
     .stImage {
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        border: 1px solid #e74c3c;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        border: 1px solid #d4e4fc;
     }
     
     /* Tabs styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
-        background-color: #1a1a2e;
-        border-radius: 8px;
-        padding: 5px;
+        background-color: #ebf5fb;
+        border-radius: 12px;
+        padding: 6px;
     }
     
     .stTabs [data-baseweb="tab"] {
-        background-color: #2c3e50;
-        border-radius: 6px;
-        color: #ecf0f1;
+        background-color: white;
+        border-radius: 8px;
+        color: #1a5276;
         padding: 8px 16px;
+        font-weight: 500;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%);
         color: white;
     }
     
     /* Expander styling */
     .streamlit-expanderHeader {
-        background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
-        border-radius: 8px;
-        color: #e74c3c;
-        border: 1px solid #e74c3c;
+        background-color: #ebf5fb;
+        border-radius: 10px;
+        color: #1a5276;
+        font-weight: 500;
+        border: 1px solid #d4e4fc;
     }
     
     /* Footer */
     .footer {
         text-align: center;
         padding: 20px;
-        color: #ecf0f1;
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-        border-radius: 10px;
+        color: white;
+        background: linear-gradient(135deg, #1a5276 0%, #2471a3 100%);
+        border-radius: 16px;
         margin-top: 30px;
-        border-top: 2px solid #e74c3c;
-        border-bottom: 2px solid #2980b9;
     }
     
     /* Metric cards */
     .metric-card {
-        background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
-        border-radius: 10px;
+        background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%);
+        border-radius: 12px;
         padding: 15px;
         text-align: center;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        border: 1px solid #e74c3c;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        color: white;
+    }
+    
+    .metric-card h2, .metric-card h4, .metric-card p {
+        color: white !important;
     }
     
     /* Code block */
     .stCodeBlock {
-        background-color: #0a0a0a !important;
-        border: 1px solid #2980b9;
-        border-radius: 8px;
+        background-color: #f8f9fa !important;
+        border: 1px solid #d4e4fc;
+        border-radius: 10px;
+    }
+    
+    /* Divider */
+    hr {
+        border-color: #d4e4fc;
     }
     
     /* Scrollbar */
@@ -206,14 +224,19 @@ st.markdown("""
         height: 8px;
     }
     ::-webkit-scrollbar-track {
-        background: #1a1a2e;
+        background: #ebf5fb;
     }
     ::-webkit-scrollbar-thumb {
-        background: #e74c3c;
+        background: #2980b9;
         border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: #2980b9;
+        background: #1a5276;
+    }
+    
+    /* Caption */
+    .stCaption {
+        color: #7f8c8d !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -223,9 +246,9 @@ st.markdown("""
 # ========================
 st.sidebar.markdown("""
 <div style="text-align: center; padding: 20px 0;">
-    <h2 style="color: #e74c3c; border-left: none; text-align: center;">🎯 PCD STUDIO</h2>
-    <p style="color: #3498db;">Pengolahan Citra Digital</p>
-    <hr style="border-color: #e74c3c;">
+    <h2 style="color: white; border-left: none; text-align: center;">💙 PCD STUDIO</h2>
+    <p style="color: #d4e4fc;">Pengolahan Citra Digital</p>
+    <hr style="border-color: #d4e4fc;">
 </div>
 """, unsafe_allow_html=True)
 
@@ -281,9 +304,9 @@ else:
 st.sidebar.markdown("---")
 st.sidebar.markdown("""
 <div style="text-align: center; font-size: 12px;">
-    <p style="color: #7f8c8d;">Dibangun dengan Streamlit</p>
-    <p style="color: #7f8c8d;">Tugas Pengolahan Citra Digital</p>
-    <p style="color: #e74c3c;">© 2026</p>
+    <p style="color: #d4e4fc;">Dibangun dengan Streamlit</p>
+    <p style="color: #d4e4fc;">Tugas Pengolahan Citra Digital</p>
+    <p style="color: white;">© 2026</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -291,7 +314,7 @@ st.sidebar.markdown("""
 # 1. PENDAHULUAN
 # ========================
 if menu == "Pendahuluan":
-    st.markdown("# 📖 PENDAHULUAN")
+    st.markdown("# 💙 PENDAHULUAN")
     
     col1, col2 = st.columns([2, 1])
     with col1:
@@ -313,12 +336,12 @@ if menu == "Pendahuluan":
     
     with col2:
         st.markdown("""
-        <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid #e74c3c;">
-            <h3 style="color: #e74c3c;">📋 INFORMASI</h3>
-            <hr style="border-color: #2980b9;">
-            <p><strong style="color: #e74c3c;">Mata Kuliah</strong><br>Pengolahan Citra Digital</p>
-            <p><strong style="color: #e74c3c;">Semester</strong><br>Genap 2025/2026</p>
-            <p><strong style="color: #e74c3c;">Platform</strong><br>Streamlit Cloud</p>
+        <div style="background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%); border-radius: 16px; padding: 20px; text-align: center; color: white;">
+            <h3 style="color: white;">📋 INFORMASI</h3>
+            <hr style="border-color: #85c1e9;">
+            <p><strong>Mata Kuliah</strong><br>Pengolahan Citra Digital</p>
+            <p><strong>Semester</strong><br>Genap 2025/2026</p>
+            <p><strong>Platform</strong><br>Streamlit Cloud</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -348,6 +371,13 @@ elif menu == "Teori Singkat":
         st.markdown("- **Brightness**: I'(x,y) = I(x,y) + c")
         st.markdown("- **Contrast**: I'(x,y) = α·I(x,y) + β")
         st.markdown("- **Sharpening**: Menggunakan kernel high-pass filter")
+        st.markdown("")
+        st.markdown("**Kernel Sharpening:**")
+        st.code("""
+[[0, -1, 0],
+ [-1, 5, -1],
+ [0, -1, 0]]
+        """)
     
     with tab3:
         st.markdown("### Histogram Citra")
@@ -538,29 +568,29 @@ elif menu == "Histogram":
         gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         
         fig = plt.figure(figsize=(14, 6))
-        fig.patch.set_facecolor('#1a1a2e')
+        fig.patch.set_facecolor('#f8f9fa')
         
         plt.subplot(1, 3, 1)
         plt.imshow(gray, cmap='gray')
-        plt.title("Citra Grayscale", fontsize=12, fontweight='bold', color='#e74c3c')
+        plt.title("Citra Grayscale", fontsize=12, fontweight='bold', color='#1a5276')
         plt.axis('off')
         
         plt.subplot(1, 3, 2)
-        plt.hist(gray.ravel(), bins=256, color='#e74c3c', alpha=0.7, edgecolor='white')
-        plt.title("Histogram Asli", fontsize=12, fontweight='bold', color='#e74c3c')
-        plt.xlabel("Intensitas Piksel", color='#ecf0f1')
-        plt.ylabel("Frekuensi", color='#ecf0f1')
+        plt.hist(gray.ravel(), bins=256, color='#2980b9', alpha=0.7, edgecolor='#1a5276')
+        plt.title("Histogram Asli", fontsize=12, fontweight='bold', color='#1a5276')
+        plt.xlabel("Intensitas Piksel", color='#2c3e50')
+        plt.ylabel("Frekuensi", color='#2c3e50')
         plt.grid(True, alpha=0.3)
-        plt.gca().set_facecolor('#2c3e50')
+        plt.gca().set_facecolor('#ebf5fb')
         
         equalized = cv2.equalizeHist(gray)
         plt.subplot(1, 3, 3)
-        plt.hist(equalized.ravel(), bins=256, color='#2980b9', alpha=0.7, edgecolor='white')
-        plt.title("Histogram Setelah Equalization", fontsize=12, fontweight='bold', color='#2980b9')
-        plt.xlabel("Intensitas Piksel", color='#ecf0f1')
-        plt.ylabel("Frekuensi", color='#ecf0f1')
+        plt.hist(equalized.ravel(), bins=256, color='#3498db', alpha=0.7, edgecolor='#1a5276')
+        plt.title("Histogram Setelah Equalization", fontsize=12, fontweight='bold', color='#1a5276')
+        plt.xlabel("Intensitas Piksel", color='#2c3e50')
+        plt.ylabel("Frekuensi", color='#2c3e50')
         plt.grid(True, alpha=0.3)
-        plt.gca().set_facecolor('#2c3e50')
+        plt.gca().set_facecolor('#ebf5fb')
         
         plt.tight_layout()
         st.pyplot(fig)
@@ -656,16 +686,16 @@ elif menu == "FFT (Analisis Frekuensi)":
         magnitude_spectrum = np.log(np.abs(fshift) + 1)
         
         fig = plt.figure(figsize=(15, 5))
-        fig.patch.set_facecolor('#1a1a2e')
+        fig.patch.set_facecolor('#f8f9fa')
         
         plt.subplot(1, 3, 1)
         plt.imshow(gray, cmap='gray')
-        plt.title("Citra Grayscale", fontsize=12, fontweight='bold', color='#e74c3c')
+        plt.title("Citra Grayscale", fontsize=12, fontweight='bold', color='#1a5276')
         plt.axis('off')
         
         plt.subplot(1, 3, 2)
         plt.imshow(magnitude_spectrum, cmap='gray')
-        plt.title("Magnitude Spectrum (FFT)", fontsize=12, fontweight='bold', color='#e74c3c')
+        plt.title("Magnitude Spectrum (FFT)", fontsize=12, fontweight='bold', color='#1a5276')
         plt.axis('off')
         
         f_ishift = ifftshift(fshift)
@@ -673,7 +703,7 @@ elif menu == "FFT (Analisis Frekuensi)":
         img_back = np.abs(img_back)
         plt.subplot(1, 3, 3)
         plt.imshow(img_back, cmap='gray')
-        plt.title("Hasil Inverse FFT", fontsize=12, fontweight='bold', color='#2980b9')
+        plt.title("Hasil Inverse FFT", fontsize=12, fontweight='bold', color='#1a5276')
         plt.axis('off')
         
         plt.tight_layout()
@@ -796,28 +826,28 @@ elif menu == "Kesimpulan":
     
     with col1:
         st.markdown("""
-        <div style="background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%); border-radius: 10px; padding: 15px; text-align: center;">
+        <div class="metric-card">
             <h1 style="color: white; font-size: 2rem;">✅</h1>
             <h4 style="color: white;">TERIMPLEMENTASI</h4>
-            <p style="color: white;">Semua fitur berhasil diimplementasikan</p>
+            <p>Semua fitur berhasil diimplementasikan</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
-        <div style="background: linear-gradient(135deg, #1a6da0 0%, #2980b9 100%); border-radius: 10px; padding: 15px; text-align: center;">
+        <div class="metric-card">
             <h1 style="color: white; font-size: 2rem;">🎯</h1>
             <h4 style="color: white;">TUJUAN TERCAPAI</h4>
-            <p style="color: white;">Aplikasi interaktif untuk pembelajaran</p>
+            <p>Aplikasi interaktif untuk pembelajaran</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown("""
-        <div style="background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%); border-radius: 10px; padding: 15px; text-align: center; border: 1px solid #e74c3c;">
-            <h1 style="color: #e74c3c; font-size: 2rem;">🚀</h1>
-            <h4 style="color: #e74c3c;">SIAP DEPLOY</h4>
-            <p style="color: white;">Aplikasi siap digunakan kapan saja</p>
+        <div class="metric-card">
+            <h1 style="color: white; font-size: 2rem;">🚀</h1>
+            <h4 style="color: white;">SIAP DEPLOY</h4>
+            <p>Aplikasi siap digunakan kapan saja</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -847,7 +877,7 @@ elif menu == "Kesimpulan":
 # ========================
 st.markdown("""
 <div class="footer">
-    <p><strong style="color: #e74c3c;">PCD STUDIO</strong> | Pengolahan Citra Digital | Tugas Akhir Semester | 2026</p>
+    <p><strong>PCD STUDIO</strong> | Pengolahan Citra Digital | Tugas Akhir Semester | 2026</p>
     <p style="font-size: 12px;">Dibangun dengan Streamlit, OpenCV, dan Python</p>
 </div>
 """, unsafe_allow_html=True)
