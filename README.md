@@ -16,7 +16,7 @@ Dibangun sebagai tugas kuliah Pengolahan Citra Digital.
 
 ## 🚀 Demo Langsung
 
-[https://pcd-app-nim-anda.streamlit.app](https://pcd-app-nim-anda.streamlit.app)
+[: https://5oyypjv6hcwn5425yryv4q.streamlit.app/#observasi-and-analisis)
 
 > Ganti dengan URL aplikasi Anda setelah deploy
 
